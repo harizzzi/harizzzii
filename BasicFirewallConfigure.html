@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Firewall Configuration — Muhammad Hariz Iqmal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="BasicFireStyle.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo">HI<span class="dot">.</span></div>
+    <div class="nav-right">
+      <a href="project_index.html" class="nav-back">← My Projects</a>
+      <a href="index.html" class="nav-home">Home</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="fire-hero">
+    <div class="hero-inner">
+      <span class="hero-tag">— Cybersecurity Lab Project</span>
+      <h1>Basic Firewall<br /><em>Configuration</em></h1>
+      <p>Mengkonfigurasi firewall pada Linux menggunakan <code>iptables</code> untuk mengawal akses rangkaian dan memastikan keselamatan sistem.</p>
+      <div class="hero-pills">
+        <span class="pill">Linux</span>
+        <span class="pill">iptables</span>
+        <span class="pill">Network Security</span>
+        <span class="pill">CLI</span>
+      </div>
+    </div>
+
+    <!-- Steps overview -->
+    <div class="steps-overview">
+      <div class="steps-inner">
+        <a href="#step1" class="step-dot active-dot" title="Step 1">1</a>
+        <div class="step-line"></div>
+        <a href="#step2" class="step-dot" title="Step 2">2</a>
+        <div class="step-line"></div>
+        <a href="#step3" class="step-dot" title="Step 3">3</a>
+        <div class="step-line"></div>
+        <a href="#step4" class="step-dot" title="Step 4">4</a>
+        <div class="step-line"></div>
+        <a href="#step5" class="step-dot" title="Step 5">5</a>
+        <div class="step-line"></div>
+        <a href="#step6" class="step-dot" title="Step 6">6</a>
+        <div class="step-line"></div>
+        <a href="#step7" class="step-dot" title="Step 7">7</a>
+        <div class="step-line"></div>
+        <a href="#step8" class="step-dot" title="Step 8">8</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- STEPS -->
+  <main class="steps-container">
+
+    <div class="step-card reveal" id="step1">
+      <div class="step-meta">
+        <span class="step-num">01</span>
+        <span class="step-label">Policy Setup</span>
+      </div>
+      <div class="step-body">
+        <h2>Tetapkan Policy Default DROP</h2>
+        <p>Set semua chain utama <code>INPUT</code>, <code>FORWARD</code> dan <code>OUTPUT</code> kepada DROP untuk keselamatan maksimum. Ini bermakna semua trafik ditolak secara default kecuali yang dibenarkan secara eksplisit.</p>
+        <div class="code-block">
+          <span class="code-label">bash</span>
+          <pre>iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT DROP</pre>
+        </div>
+      </div>
+      <div class="step-img">
+        <img src="projectss/basic firewall 1.png" alt="Step 1 - Policy Default DROP" class="clickable-img" loading="lazy" />
+        <div class="img-overlay"><span>View</span></div>
+      </div>
+    </div>
+
+    <div class="step-card reveal" id="step2">
+      <div class="step-meta">
+        <span class="step-num">02</span>
+        <span class="step-label">Loopback</span>
+      </div>
+      <div class="step-body">
+        <h2>Benarkan Loopback Interface</h2>
+        <p>Benarkan trafik untuk loopback interface (<code>lo</code>) supaya sistem dapat berkomunikasi dengan dirinya sendiri — penting untuk banyak service tempatan.</p>
+        <div class="code-block">
+          <span class="code-label">bash</span>
+          <pre>iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT</pre>
+        </div>
+      </div>
+      <div class="step-img">
+        <img src="projectss/basic firewall 2.png" alt="Step 2 - Allow Loopback" class="clickable-img" loading="lazy" />
+        <div class="img-overlay"><span>View</span></div>
+      </div>
+    </div>
+
+    <div class="step-card reveal" id="step3">
+      <div class="step-meta">
+        <span class="step-num">03</span>
+        <span class="step-label">SSH Access</span>
+      </div>
+      <div class="step-body">
+        <h2>Benarkan Trafik Masuk SSH (Port 22)</h2>
+        <p>Benarkan sambungan SSH masuk. Ini penting untuk remote access ke server dari luar rangkaian tempatan.</p>
+        <div class="code-block">
+          <span class="code-label">bash</span>
+          <pre>iptables -A INPUT -p tcp --dport 22 -j ACCEPT</pre>
+        </div>
+      </div>
+      <div class="step-img">
+        <img src="projectss/basic firewall 3.png" alt="Step 3 - Allow SSH" class="clickable-img" loading="lazy" />
+        <div class="img-overlay"><span>View</span></div>
+      </div>
+    </div>
+
+    <div class="step-card reveal" id="step4">
+      <div class="step-meta">
+        <span class="step-num">04</span>
+        <span class="step-label">Web Traffic</span>
+      </div>
+      <div class="step-body">
+        <h2>Benarkan Trafik HTTP & HTTPS</h2>
+        <p>Benarkan trafik web masuk melalui port 80 (HTTP) dan port 443 (HTTPS) supaya server boleh serve laman web kepada pengguna.</p>
+        <div class="code-block">
+          <span class="code-label">bash</span>
+          <pre>iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT</pre>
+        </div>
+      </div>
+      <div class="step-img">
+        <img src="projectss/basic firewall 4.png" alt="Step 4 - Allow HTTP HTTPS" class="clickable-img" loading="lazy" />
+        <div class="img-overlay"><span>View</span></div>
+      </div>
+    </div>
+
+    <div class="step-card reveal" id="step5">
+      <div class="step-meta">
+        <span class="step-num">05</span>
+        <span class="step-label">ICMP / Ping</span>
+      </div>
+      <div class="step-body">
+        <h2>Benarkan Trafik ICMP (Ping)</h2>
+        <p>Benarkan permintaan ping masuk. Berguna untuk diagnosa rangkaian — memastikan server boleh dihubungi dari luar.</p>
+        <div class="code-block">
+          <span class="code-label">bash</span>
+          <pre>iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT</pre>
+        </div>
+      </div>
+      <div class="step-img">
+        <img src="projectss/basic firewall 5.png" alt="Step 5 - Allow ICMP" class="clickable-img" loading="lazy" />
+        <div class="img-overlay"><span>View</span></div>
+      </div>
+    </div>
+
+    <div class="step-card reveal" id="step6">
+      <div class="step-meta">
+        <span class="step-num">06</span>
+        <span class="step-label">Outbound</span>
+      </div>
+      <div class="step-body">
+        <h2>Benarkan Trafik Keluar</h2>
+        <p>Benarkan semua trafik keluar dari server. Ini penting supaya server boleh membuat request keluar seperti update pakej dan DNS resolution.</p>
+        <div class="code-block">
+          <span class="code-label">bash</span>
+          <pre>iptables -A OUTPUT -j ACCEPT</pre>
+        </div>
+      </div>
+      <div class="step-img">
+        <img src="projectss/basic firewall 6.png" alt="Step 6 - Allow Outbound" class="clickable-img" loading="lazy" />
+        <div class="img-overlay"><span>View</span></div>
+      </div>
+    </div>
+
+    <div class="step-card reveal" id="step7">
+      <div class="step-meta">
+        <span class="step-num">07</span>
+        <span class="step-label">Persist Rules</span>
+      </div>
+      <div class="step-body">
+        <h2>Simpan Rules iptables</h2>
+        <p>Simpan semua rules supaya kekal selepas server reboot. Tanpa langkah ini, semua rules akan hilang bila sistem dimulakan semula.</p>
+        <div class="code-block">
+          <span class="code-label">bash</span>
+          <pre>iptables-save > /etc/iptables/rules.v4</pre>
+        </div>
+      </div>
+      <div class="step-img">
+        <img src="projectss/basic firewall 7.png" alt="Step 7 - Save Rules" class="clickable-img" loading="lazy" />
+        <div class="img-overlay"><span>View</span></div>
+      </div>
+    </div>
+
+    <div class="step-card reveal" id="step8">
+      <div class="step-meta">
+        <span class="step-num">08</span>
+        <span class="step-label">Verify</span>
+      </div>
+      <div class="step-body">
+        <h2>Lihat Rules Semasa</h2>
+        <p>Paparkan semua rules iptables yang aktif dengan maklumat terperinci termasuk packet count dan byte count untuk setiap rule.</p>
+        <div class="code-block">
+          <span class="code-label">bash</span>
+          <pre>iptables -L -v -n --line-numbers</pre>
+        </div>
+      </div>
+      <div class="step-img">
+        <img src="projectss/basic firewall 8.png" alt="Step 8 - View Rules" class="clickable-img" loading="lazy" />
+        <div class="img-overlay"><span>View</span></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- SUMMARY -->
+  <section id="summary">
+    <div class="summary-inner reveal">
+      <h2>Summary<span class="accent">.</span></h2>
+      <p>Firewall yang dikonfigurasi ini menerapkan prinsip <strong>least privilege</strong> — semua trafik ditolak secara default, dan hanya port yang diperlukan (22, 80, 443) dibuka secara eksplisit.</p>
+      <a href="project_index.html" class="btn-back">← Back to Projects</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-logo">HI<span class="accent">.</span></span>
+      <p>© 2025 Muhammad Hariz Iqmal</p>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div id="imgModal" class="modal">
+    <button class="close-btn" id="closeModal">✕</button>
+    <div class="modal-inner">
+      <img class="modal-content" id="modalImg" alt="" />
+      <div id="caption"></div>
+    </div>
+  </div>
+
+  <!-- Back to top -->
+  <button id="backToTopBtn" title="Back to Top">↑</button>
+
+  <script src="BasicFireScript.js"></script>
+</body>
+</html>

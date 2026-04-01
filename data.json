@@ -1,0 +1,10 @@
+{
+  "traffic": [120, 135, 160, 145, 180, 200, 190],
+  "attacks": {
+    "SQLi": 4,
+    "XSS": 3,
+    "Brute Force": 7,
+    "Phishing": 2,
+    "Malware": 5
+  }
+}
