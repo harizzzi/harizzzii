@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRZ - Personal Projects</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #06080e;
+            --card-bg: #0a0d16;
+            --border-color: #182030;
+            --border-hover: #202c40;
+            --accent-blue: #4da6ff;
+            --accent-green: #00e676;
+            --accent-purple: #b388ff;
+            --accent-orange: #ffab40;
+            --text-main: #ffffff;
+            --text-muted: #5a7090;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg);
+            color: #b8cce0;
+            font-family: 'Lato', sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+            overflow-x: hidden; /* Menghalang scrollbar melintang semasa animasi berjalan */
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        .brand-logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: 1.5px;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+        }
+
+        .brand-logo::after {
+            content: ".";
+            color: var(--accent-green);
+            font-size: 32px;
+            line-height: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .back-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-blue);
+        }
+
+        /* TITLE SECTION */
+        .title-section {
+            margin-bottom: 35px;
+        }
+
+        .title-section h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .title-section p {
+            font-size: 16px;
+            color: var(--text-muted);
+        }
+
+        /* PROJECTS GRID */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        border-color 0.3s, 
+                        box-shadow 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px) scale(1.02) !important; /* Kekalkan kesan hover ke atas walaupun ada animasi asal */
+            border-color: var(--border-hover);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .project-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(24, 32, 48, 0.8);
+            border: 1px solid var(--border-color);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .project-icon {
+            font-size: 40px;
+            margin-bottom: 25px;
+            color: var(--p-color, var(--accent-blue));
+        }
+
+        .project-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .project-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .project-btn {
+            margin-top: auto;
+            background: #0e1220;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .project-card:hover .project-btn {
+            background: var(--p-color, var(--accent-blue));
+            color: #06080e;
+            border-color: var(--p-color);
+        }
+
+        /* LOGO WARNA TEMA */
+        .p-comptia { --p-color: var(--accent-blue); }
+        .p-kvskills { --p-color: var(--accent-green); }
+        .p-cisco { --p-color: var(--accent-orange); }
+
+
+        /* ==========================================
+           CSS UNTUK KESAN ANIMASI SCROLL (EFFECT)
+        ============================================ */
+        
+
+        /* Kesan Tembak Masuk dari Kiri */
+        .anim-left {
+            transform: translateX(-60px);
+        }
+
+        /* Kesan Tembak Masuk dari Kanan */
+        .anim-right {
+            transform: translateX(60px);
+        }
+
+        /* Kesan Tembak Naik dari Bawah */
+        .anim-bottom {
+            transform: translateY(50px);
+        }
+
+        /* Keadaan Selepas Elemen Aktif (Apabila Di-scroll Kelihatan) */
+        .scroll-animate.active {
+            opacity: 1;
+            transform: translateX(0) translateY(0);
+        }
+
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 25px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <a href="#" class="brand-logo">HRZ</a>
+        <div class="nav-links">
+            <a href="index.html" class="back-btn">
+                <i class="fa-solid fa-right-to-bracket"></i> Back to Portfolio
+            </a>
+        </div>
+    </header>
+
+    <div class="title-section">
+        <h1>Personal Projects</h1>
+        <p>Senarai sistem, nota latihan intensif, dan bahan simulasi rangkaian yang dibangunkan.</p>
+    </div>
+
+    <div class="projects-grid">
+        
+        <div class="project-card p-comptia scroll-animate anim-left">
+            <div class="project-badge"><i class="fa-solid fa-lock"></i> Secured</div>
+            <div class="project-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3>CompTIA Network+ Study Materials</h3>
+            <p>Sistem pengurusan nota dan simulasi kuiz rawak berasaskan kurikulum N10-009. Mengandungi cheat sheet saat akhir, analisis singkatan, dan pengiraan sub-netting.</p>
+            <a href="https://harizzzi.github.io/hariznetwork-study/" class="project-btn">Buka Portal <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="project-card p-kvskills scroll-animate anim-bottom">
+            <div class="project-badge"><i class="fa-solid fa-lock"></i> Secured</div>
+            <div class="project-icon"><i class="fa-solid fa-trophy"></i></div>
+            <h3>KV Skills Study Materials</h3>
+            <p>Bahan latihan intensif, topologi simulasi, dan modul troubleshooting khas sebagai persediaan pertandingan IT Network Administration peringkat Zon.</p>
+            <a href="index.html" class="project-btn">Akses Modul <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="project-card p-cisco scroll-animate anim-right">
+            <div class="project-badge"><i class="fa-solid fa-lock"></i> Secured</div>
+            <div class="project-icon"><i class="fa-solid fa-server"></i></div>
+            <h3>Cisco Study Materials</h3>
+            <p>Koleksi konfigurasi penuh Cisco IOS commands, fail makmal EVE-NG/Packet Tracer, panduan routing protocols (OSPF, RIP), serta pengurusan VLAN & Trunking.</p>
+            <a href="index.html" class="project-btn">Lihat Fail <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+    </div>
+
+    <footer>
+        HRZ Secured Portfolio 
+    </footer>
+</div>
