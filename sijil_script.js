@@ -1,13 +1,15 @@
 // ===========================
-// NAVBAR SCROLL
+// NAVBAR SCROLL EFFECT
 // ===========================
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 40);
+  if (navbar) {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }
 });
 
 // ===========================
-// SCROLL REVEAL
+// SCROLL REVEAL (Muted)
 // ===========================
 function reveal() {
   document.querySelectorAll('.reveal').forEach(el => {
@@ -19,7 +21,7 @@ window.addEventListener('scroll', reveal);
 reveal();
 
 // ===========================
-// FILTER TABS
+// FILTER TABS LOGIC
 // ===========================
 const filterBtns = document.querySelectorAll('.filter-btn');
 const certSections = document.querySelectorAll('.cert-section');
@@ -34,9 +36,7 @@ filterBtns.forEach(btn => {
 
     if (filter === 'all') {
       certSections.forEach(s => s.classList.remove('hidden'));
-      certCards.forEach(c => {
-        c.style.display = '';
-      });
+      certCards.forEach(c => { c.style.display = ''; });
     } else {
       certSections.forEach(s => {
         const hasMatch = [...s.querySelectorAll('.cert-card')].some(
@@ -48,14 +48,12 @@ filterBtns.forEach(btn => {
         c.style.display = c.dataset.category === filter ? '' : 'none';
       });
     }
-
-    // re-run reveal after filter
     setTimeout(reveal, 50);
   });
 });
 
 // ===========================
-// MODAL
+// MODAL MANAGEMENT
 // ===========================
 const modal = document.getElementById('imgModal');
 const modalImg = document.getElementById('modalImg');
@@ -63,15 +61,17 @@ const captionText = document.getElementById('caption');
 const closeBtn = document.getElementById('closeModal');
 
 document.querySelectorAll('.clickable-img').forEach(img => {
-  img.addEventListener('click', () => {
-    modalImg.src = img.src;
-    captionText.textContent = img.alt;
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
+  img.addEventListener('click', (e) => {
+    e.stopPropagation(); // Mencegah double trigger
+    if (modalImg && captionText && modal) {
+      modalImg.src = img.src;
+      captionText.textContent = img.alt;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
   });
 });
 
-// Also allow clicking anywhere on cert-card to open
 document.querySelectorAll('.cert-card').forEach(card => {
   card.addEventListener('click', () => {
     const img = card.querySelector('img');
@@ -80,10 +80,16 @@ document.querySelectorAll('.cert-card').forEach(card => {
 });
 
 function closeModal() {
-  modal.classList.remove('open');
-  document.body.style.overflow = '';
+  if (modal) {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
 }
 
-closeBtn.addEventListener('click', closeModal);
-modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+if (closeBtn) {
+  closeBtn.addEventListener('click', closeModal);
+}
+if (modal) {
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+}
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
